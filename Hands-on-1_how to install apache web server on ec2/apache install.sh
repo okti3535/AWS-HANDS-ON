@@ -63,43 +63,48 @@ sudo systemctl status httpd
 
 sudo systemctl enable httpd
 
-Securtiy Group: "0.0.0.0/0-----> Port 80"
+Security Group: "0.0.0.0/0-----> Port 80"
 
 # STEP_2_ Basic Customization of  Apache Web Server
 
-8. Set permission of the files and folders under `/var/www/html/` folder to everyone.
+8. Check the default settings 
+
+cd /etc/httpd/conf.d/
+cd /usr/share/httpd/noindex
+
+9. Set permission of the files and folders under `/var/www/html/` folder to everyone.
 
 
 sudo chmod -R 777 /var/www/html
 
 
-9. Go to the /var/www/html
+10. Go to the /var/www/html
 
 cd /var/www/html
 
-10. Create a custom `index.html` file under `/var/www/html/` folder to be served on the Server.
+11. Create a custom `index.html` file under `/var/www/html/` folder to be served on the Server.
 
 echo "HELLO CLARUSWAY" > /var/www/html/index.html
 
-11. check the index.html
+12. check the index.html
 ls 
 cat index.html
 
-12. Restart the httpd server and `check` from browser.
+13. Restart the httpd server and `check` from browser.
 
 sudo systemctl restart httpd
 
 
 # STEP_3- Customization of  Apache Web Server with HTML format
 
-13. open index.html  file with vim editor.
+14. open index.html  file with vim editor.
 
 cd /var/www/html
 vim index.html
 
 press I
 
-14. clean the existing messsage then paste the html formatted code.
+15. clean the existing messsage then paste the html formatted code.
 
 <html>
 <head>
@@ -110,22 +115,22 @@ press I
 </body>
 </html>
 
-15. Save and exit and show with cat command
+16. Save and exit and show with cat command
 
 ESC :wq
 cat index.html
 
-16. Restart the Apache Web Server.
+17. Restart the Apache Web Server.
 
 sudo systemctl restart httpd
 
-17. Check if the Web Server is working properly from the browser.
+18. Check if the Web Server is working properly from the browser.
 
 ## Part 4 - Automation of Web Server Installation through Bash Script
 
-18. Configure an Amazon EC2 instance with AMI as `Amazon Linux 2`, instance type as `t2.micro`, default VPC security group which allows connections from anywhere and any port.
+19. Configure an Amazon EC2 instance with AMI as `AL2023`, instance type as `t2.micro`, default VPC security group which allows connections from anywhere and any port.
 
-19. Configure instance to automate web server installation with `user data` script.
+ and Configure instance to automate web server installation with `user data` script.
 
 #! /bin/bash
 #update os
