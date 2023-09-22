@@ -63,7 +63,7 @@ Template version description    : MyTemplate
 - Amazon Machine Image (AMI)
 
 ```text
-Amazon Linux 2 AMI (HVM), SSD Volume Type, ami-0ab4d1e9cf9a1215a (us-east-1)
+Amazon Linux 2023 AMI (HVM), SSD Volume Type, ami-0022f774911c1d690 (us-east-1)
 ```
 
 - Instance Type
@@ -76,7 +76,7 @@ t2.micro
 
 ```text
 Please select your key pair (pem key) that is created before
-Example: oktay.pem
+Example: clarusway.pem
 ```
 
 - Network settings

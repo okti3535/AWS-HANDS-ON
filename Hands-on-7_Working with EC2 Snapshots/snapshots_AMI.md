@@ -41,17 +41,16 @@ Part 6 - Using Data Lifecycle Manager
   b. User data (paste user data seen below for Nginx)
 
   ```text
-  #!/bin/bash
-
+  #! /bin/bash
   yum update -y
-  amazon-linux-extras install nginx1.12
-  yum install wget -y
+  yum install nginx -y
+  systemctl start nginx
   cd /usr/share/nginx/html
-  chmod o+w /usr/share/nginx/html
+  chmod -R 777 /usr/share/nginx/html
   rm index.html
   wget https://raw.githubusercontent.com/awsdevopsteam/route-53/master/index.html
   wget https://raw.githubusercontent.com/awsdevopsteam/route-53/master/ken.jpg
-  systemctl start nginx
+  systemctl restart nginx
   systemctl enable nginx
   ```
 
