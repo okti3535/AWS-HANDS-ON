@@ -1,4 +1,4 @@
-clear# Hands-on EC2-03 : Creating an Instance with Launch Template and Versioning
+# Hands-on EC2-03 : Creating an Instance with Launch Template and Versioning
 
 Purpose of the this hands-on training is to give the students understanding of how to create Launch Template on AWS Console with `user data` and how to version Launch Templates.
 
@@ -38,6 +38,7 @@ Launch_Temp_Sec_group: SSH 22, HTTP 80 ----> anywhere(0.0.0.0/0)
 
 
 Name                         : MyClaruswayTemplate
+
 Template version description : Origin
 
 
@@ -62,8 +63,7 @@ Keep it as is
 9. Amazon machine image (AMI)
 
 
-Amazon Linux 2 AMI (HVM), SSD Volume Type
-ami-0a8b4cd432b1c3063
+Amazon Linux 2023 AMI, SSD Volume Type
 
 10. Instance Type
 
@@ -78,25 +78,19 @@ Please select your key pair (pem key) that is created before
 Example: clarusway.pem
 
 
-12. Network settings
-
-
-Network Platform : Virtual Private Cloud (VPC)
-
-
-13. Security groups
+12. Security groups
 
 
 Security Group Name: Launch_Temp_Sec_group
 
 
-14. Storage (volumes)
+13. Storage (volumes)
 
 
 we keep it as is  (Volume 1 (AMI Root) (8 GiB, EBS, General purpose SSD (gp2)))
 
 
-15. Resource tags
+14. Resource tags
 
 
 Key             : Name
@@ -104,13 +98,13 @@ Value           : Webserver-Origin
 Resource type   : Instance
 
 
-16. Network interfaces
+15. Network interfaces
 
 
 Keep it as is
 
 
-17. Advance details
+16. Advance details
 
 
 Keep it as is
@@ -118,136 +112,107 @@ Keep it as is
 
 ### Step 3: Create an Instance with Launch Template
 
-18. Go to `Launch Template` Menu
+17. Go to `Launch Template` Menu
 
-19. Select `MyClaruswayTemplate` ---> `Actions` ---> `Launch Instance from Template`
+18. Select `MyClaruswayTemplate` ---> `Actions` ---> `Launch Instance from Template`
 
-20. Enter number of instance as `1`.
+19. Enter number of instance as `1`.
 
-21. Keep the rest of settings as is and click the `Launch instance from template` at the bottom.
+20. Keep the rest of settings as is and click the `Launch instance from template` at the bottom.
 
-22. Go to EC2 Instance menu and show the created instance.
+21. Go to EC2 Instance menu and show the created instance.
 
-## Part 4 - Modifying Launch Template
+## Part 4 - Modifying Launch Template
 
 ### Step 1: Launch Template Version 2
 
-23. Go to Launch Template menu on the left hand pane
+22. Go to Launch Template menu on the left hand pane
 
-24. Select template named `MyClaruswayTemplate` ---> `Actions` ---> `Modify template (Create New Version)`
+23. Select template named `MyClaruswayTemplate` ---> `Actions` ---> `Modify template (Create New Version)`
 
-25. Template version description
-
-
-V1 nginx
+24. Template version description
 
 
-26. Key pair
+V2 nginx
+
+
+25. Key pair
 
 
 Select your .pem file name
 
 
-27. Resource tags
+26. Resource tags
 
 
 Key             : Name
-Value           : Nginx-Webserver-V2
+Value           : Webserver-V2
 Resource type   : Instance
 
 
-28. Go to `Advance Details` on the bottom and add the script given below into the `user data` field.
+27. Go to `Advance Details` on the bottom and add the script given below into the `user data` field.
 
-
+```
 #!/bin/bash
 
 yum update -y
-amazon-linux-extras install nginx1.12
+yum install nginx -y
 systemctl enable nginx
 systemctl start nginx
+```
+Create template version
+28. Go to `Launch Template` Menu and click on `MyClaruswayTemplate`.
 
-
-29. Go to `Launch Template` Menu and click on `MyClaruswayTemplate`.
-
-30. Select version `2` from the `Versions` tab.
+29. Select version `2` from the `Versions` tab.
 
 
 Version         : 2
 Description     : V2 nginx
 
 
-31. Select `Actions` ---> `Launch instance from template`.
+30. Select `Actions` ---> `Launch instance from template`.
 
 
 Number of Instance : 1
 
 
-32. Click the 'launch Instance from template' button at the bottom.
+31. Click the 'launch Instance from template' button at the bottom.
 
-33. Go to `Instance Menu` and show recently created EC2 instance.
+32. Go to `Instance Menu` and show recently created EC2 instance.
 
-34. Copy EC2's 'Public IP`, paste it in a browser and show 'nginx' webpage.
-
+33. Copy EC2's 'Public IP`, paste it in a browser and show 'nginx' webpage.
 ### Step 2: Launch Template Version 3
-
-35. Go to `Launch Template` menu on the left hand pane.
-
-36. Select template named `MyClaruswayTemplate` ---> `Actions` ---> 'Modify template (Create New Version)'.
-
-37.  Template version description
-
-
+34. Go to `Launch Template` menu on the left hand pane.
+35. Select template named `MyClaruswayTemplate` ---> `Actions` ---> 'Modify template (Create New Version)'.
+36.  Template version description
 V3 nginx
-
-
-38. Key pair
-
-
+37. Key pair
 Select your .pem file name
-
-
 38. Resource tags
-
-
 Key             : Name
 Value           : Webserver-V3
 Resource type   : Instance
-
-
 39. Go to `Advance Details` on the bottom and add the script given below into the `user data` field.
-
-
+```
 #! /bin/bash
-
 yum update -y
-amazon-linux-extras install nginx1.12
+yum install nginx -y
 systemctl start nginx
 cd /usr/share/nginx/html
 chmod -R 777 /usr/share/nginx/html
 rm index.html
-wget https://raw.githubusercontent.com/awsdevopsteam/ngniex/master/index.html
-wget https://raw.githubusercontent.com/awsdevopsteam/ngniex/master/ryu.jpg
+wget https://raw.githubusercontent.com/awsdevopsteam/route-53/master/index.html
+wget https://raw.githubusercontent.com/awsdevopsteam/route-53/master/ken.jpg
 systemctl restart nginx
 systemctl enable nginx
-
+```
 
 40. Go to `Launch Template` Menu and click on `MyClaruswayTemplate`.
-
 41. Select version `3` from the `Versions` tab.
-
-
 Version         : 3
 Description     : V3 nginx
-
-
 42. Select `Actions` ---> `Launch instance from template`.
-
-
 Number of Instance : 1
-
-
 43. Click the `launch Instance from template` button at the bottom.
-
 44. Go to `Instance Menu` and show recently created EC2 instance.
-
-45. Copy EC2's `Public IP`, paste it in a browser and show `nginx` webpage with `Ken` image.
+45. Copy EC2's `Public IP`, paste it in a browser and show `nginx` webpage with custom image.
