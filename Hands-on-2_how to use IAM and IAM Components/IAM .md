@@ -56,27 +56,21 @@ At the end of the this hands-on training, students will be able to;
 
 - Check the users and Billing services to be accessible or not.
 
-## Part 2 - Creating Groups
+## Part 2 - Creating Groups and Users
 
 ### Step 1  - Creating users of Database and Database Group
 
-- Create group of database 
+- Create group called Database (RDS FullAccess)
 - Explain why we use group
 - Explain inline policy and group relation
 - Assign users to the Database Group
 
 ### Step 2 Create users of Developer and Developer Group
 
-- Create group of Developer
+- Create group called Developer (S3 and EC2 FullAccess)
 - Assign users to the Developer Group
 - Ask the status of the user without policy when you delete the group which has policy 
 
-### Step 3 Create users of AWS_DEVOPS and AWS_DEVOPS Group
-
-- Create group  with "power user" policy
-- Explain Power User
-- Assign user to the group while creating users.
-- Show the permissions of group and users.
 
 ##  Part 3 - Troubleshooting about credentials
 
@@ -86,7 +80,7 @@ At the end of the this hands-on training, students will be able to;
 
 ### Step 2-  What if you forgot your secret access keys key 
 
-  Click User>>>>> Select user---->>Security Credential--->> Go Access keys ---> Deactivate---->> Delete --->>>Create new 
+-  Click User>>>>> Select user---->>Security Credential--->> Go Access keys ---> Deactivate---->> Delete --->>>Create new 
 
 
 ##  Part 4 - Creating role and attaching to EC2
@@ -97,53 +91,46 @@ At the end of the this hands-on training, students will be able to;
 Trusted Entity : AWS services
 Use case       : EC2
 Permission     : S3FullAccess
-Name           : MyFirstRole
+Name           : FirstRoleS3Full
 ```
-- Launch an Instance ******without role :
+- Launch an Instance **without role**:
 
-```text
--AMI             : Amazon Linux 2
--Instance Type   : t2.micro
--Step 3: Configure Instance Details:
-
-  - ****IAM role     : "None"
-
+  - AMI             : Amazon Linux 2023
+  - Instance Type   : t2.micro
+  - IAM role        : "None"
+  - Security Group: : HTTP & SSH Allowed
   - User data       :
 
+```text
 #!/bin/bash
 
 yum update -y
 yum install -y httpd
 cd /var/www/html
-aws s3 cp s3://oktay-pipeline-production/index.html .
-aws s3 cp s3://oktay-pipeline-production/cat.jpg .
+aws s3 cp s3://osvaldo-pipeline-production/index.html .
+aws s3 cp s3://osvaldo-pipeline-production/cat.jpg .
 systemctl enable httpd
 systemctl start httpd 
-
-- Security Group: HTTP & SSH Allowed
-
 ```
-- Launch an Instance with  ****MyFirstRole:
-```text
--AMI             : Amazon Linux 2
--Instance Type   : t2.micro
--Step 3: Configure Instance Details:
 
-  - ****IAM role     : MyFirstRole
+- Launch an Instance with  **FirstRoleS3Full** role:
 
+  - AMI             : Amazon Linux 2023
+  - Instance Type   : t2.micro
+  - IAM role        : FirstRoleS3Full
+  - Security Group: : HTTP & SSH Allowed
   - User data       :
 
+```text
 #!/bin/bash
 
 yum update -y
 yum install -y httpd
 cd /var/www/html
-aws s3 cp s3://oktay-pipeline-production/index.html .
-aws s3 cp s3://oktay-pipeline-production/cat.jpg .
+aws s3 cp s3://osvaldo-pipeline-production/index.html .
+aws s3 cp s3://osvaldo-pipeline-production/cat.jpg .
 systemctl enable httpd
 systemctl start httpd 
-
-- Security Group: HTTP & SSH Allowed
-
 ```
+
 - Show that the instance without role wasn't able to access S3 bucket. So the web page couldn't fetch the index.html and cat.jpg file.
